@@ -13,9 +13,9 @@ app.use(express.json());
 //create todos
 app.post("/todos", async (req, res) => {
   try {
-    const { user_id, title, progress, date } = req.body;
+    let { user_id, title, progress, date } = req.body;
     const id = uuidv4();
-
+    title = title.trim();
     const sql =
       "INSERT INTO todos (id,user_id,title,progress,date) VALUES($1,$2,$3,$4,$5) RETURNING *";
     const newTodo = await pool.query(sql, [id, user_id, title, progress, date]);
@@ -23,6 +23,31 @@ app.post("/todos", async (req, res) => {
       status: "success",
       message: "Todo created",
       data: { todo: newTodo.rows[0] },
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      message: "Failed to create todo",
+      errorMessage: error.message,
+      error,
+    });
+  }
+});
+
+//update todo
+app.patch("/todos/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    let { user_id, title, progress, date } = req.body;
+    title = title.trim();
+    const updatedTodo = await pool.query(
+      "UPDATE todos SET user_id=$1, title=$2,progress=$3,date=$4 WHERE id=$5",
+      [user_id, title, progress, date, id]
+    );
+    res.status(200).json({
+      status: "success",
+      message: "Todo updated",
+      data: { todo: updatedTodo.rows[0] },
     });
   } catch (error) {
     res.status(500).json({

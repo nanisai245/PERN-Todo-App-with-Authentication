@@ -1,6 +1,8 @@
+import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useState } from "react";
 import ListHeader from "./components/ListHeader";
 import ListItem from "./components/ListItem";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -24,6 +26,7 @@ function App() {
   );
   return (
     <div className="app">
+      <ToastContainer />
       <ListHeader listName="Holiday tick list" getData={getData} />
       {sortedTasks?.map((task) => (
         <ListItem key={task.id} task={task} getData={getData} />
