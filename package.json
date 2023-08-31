@@ -1,0 +1,10 @@
+{
+  "name": "pern-todo-app-with-authentication",
+  "version": "1.0.0",
+  "scripts": {
+    "client": "cd client && npm start",
+    "server":"nodemon ./server/index.js"
+  },
+  "author": "Melos",
+  "license": "ISC"
+}
