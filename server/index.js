@@ -52,7 +52,26 @@ app.patch("/todos/:id", async (req, res) => {
   } catch (error) {
     res.status(500).json({
       status: "error",
-      message: "Failed to create todo",
+      message: "Failed to update todo",
+      errorMessage: error.message,
+      error,
+    });
+  }
+});
+
+//delete todo
+app.delete("/todos/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    await pool.query("DELETE FROM todos WHERE id=$1", [id]);
+    res.status(200).json({
+      status: "success",
+      message: "Todo deleted",
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      message: "Failed to delete todo",
       errorMessage: error.message,
       error,
     });

@@ -7,7 +7,7 @@ const Modal = ({ mode, setShowModal, getData, task }) => {
     user_id: editMode ? task.user_id : "1",
     title: editMode ? task.title : null,
     progress: editMode ? task.progress : 50,
-    data: editMode ? "" : new Date(),
+    data: editMode ? task.date : new Date(),
   });
 
   const postData = async (e) => {
