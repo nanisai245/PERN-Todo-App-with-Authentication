@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 const Modal = ({ mode, setShowModal, getData, task }) => {
   const editMode = mode === "edit" ? true : false;
@@ -6,13 +7,15 @@ const Modal = ({ mode, setShowModal, getData, task }) => {
     user_id: editMode ? task.user_id : "1",
     title: editMode ? task.title : null,
     progress: editMode ? task.progress : 50,
-    data: editMode ? "" : new Date(),
+    data: editMode ? task.date : new Date(),
   });
 
   const postData = async (e) => {
     e.preventDefault();
+    if (data.title === null || data.title?.trim().length === 0) {
+      return toast.error("Task is required");
+    }
     try {
-      console.log(data);
       const response = await fetch("http://localhost:8000/todos", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -21,8 +24,32 @@ const Modal = ({ mode, setShowModal, getData, task }) => {
       if (response.status === 201) {
         setShowModal(false);
         getData();
-      }
-    } catch (error) {}
+        toast.success("Todo saved");
+      } else toast.error("Failed to update todo");
+    } catch (error) {
+      toast.error("Something went wrong");
+    }
+  };
+
+  const editData = async (e) => {
+    e.preventDefault();
+    if (data.title === null || data.title?.trim().length === 0) {
+      return toast.error("Task is required");
+    }
+    try {
+      const response = await fetch(`http://localhost:8000/todos/${task.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      if (response.status === 200) {
+        setShowModal(false);
+        getData();
+        toast.success("Todo updated");
+      } else toast.error("Failed to update todo");
+    } catch (error) {
+      toast.error("Something went wrong");
+    }
   };
 
   const handleChange = (e) => {
@@ -41,7 +68,7 @@ const Modal = ({ mode, setShowModal, getData, task }) => {
           <input
             required
             maxLength={30}
-            placeholder="Your task goes here"
+            placeholder="Write your task here"
             name="title"
             value={data.title}
             onChange={handleChange}
@@ -62,7 +89,7 @@ const Modal = ({ mode, setShowModal, getData, task }) => {
             className={mode}
             type="submit"
             value="save"
-            onClick={editMode ? null : postData}
+            onClick={editMode ? editData : postData}
           />
         </form>
       </div>
