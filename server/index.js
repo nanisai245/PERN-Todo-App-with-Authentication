@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const { v4: uuidv4 } = require("uuid");
 const pool = require("./config/db");
 
 const app = express();
@@ -12,7 +13,9 @@ app.use(express.json());
 //create todos
 app.post("/todos", async (req, res) => {
   try {
-    const { id, user_id, title, progress, date } = req.body;
+    const { user_id, title, progress, date } = req.body;
+    const id = uuidv4();
+
     const sql =
       "INSERT INTO todos (id,user_id,title,progress,date) VALUES($1,$2,$3,$4,$5) RETURNING *";
     const newTodo = await pool.query(sql, [id, user_id, title, progress, date]);
@@ -80,7 +83,6 @@ app.get("/todos/:id", async (req, res) => {
 app.get("/todos/users/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(id);
     const todos = await pool.query("SELECT * FROM todos WHERE user_id=$1", [
       id,
     ]);
