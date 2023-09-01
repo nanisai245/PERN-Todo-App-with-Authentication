@@ -1,17 +1,20 @@
 import TickIcon from "./TickIcon";
-import ProgressBar from "./ProgressBar";
 import { useState } from "react";
 import Modal from "./Modal";
 import { toast } from "react-toastify";
+import ProgressBar from "./ProgressBar";
 
 const ListItem = ({ task, getData }) => {
   const [showModal, setShowModal] = useState(false);
 
   const deleteTodo = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/todos/${task.id}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_BASE_URL}/todos/${task.id}`,
+        {
+          method: "DELETE",
+        }
+      );
       if (response.status === 200) {
         getData();
         toast.success("Todo deleted");
@@ -22,10 +25,10 @@ const ListItem = ({ task, getData }) => {
   };
   return (
     <div className="list-item">
-      <div className="info-container">
+      <div className="info-container" style={{ textAlign: "left" }}>
         <TickIcon />
         <p className="task-title">{task.title}</p>
-        {/* <ProgressBar /> */}
+        <ProgressBar progress={task.progress} />
       </div>
 
       <div className="button-container">

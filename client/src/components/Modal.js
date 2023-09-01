@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
 
 const Modal = ({ mode, setShowModal, getData, task }) => {
+  const [cookies, setCookie, removeCookie] = useCookies(null);
   const editMode = mode === "edit" ? true : false;
   const [data, setData] = useState({
-    user_id: editMode ? task.user_id : "1",
+    user_id: editMode ? task.user_id : cookies.User.id,
     title: editMode ? task.title : null,
     progress: editMode ? task.progress : 50,
     data: editMode ? task.date : new Date(),
@@ -16,11 +18,14 @@ const Modal = ({ mode, setShowModal, getData, task }) => {
       return toast.error("Task is required");
     }
     try {
-      const response = await fetch("http://localhost:8000/todos", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_BASE_URL}/todos`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        }
+      );
       if (response.status === 201) {
         setShowModal(false);
         getData();
@@ -37,11 +42,14 @@ const Modal = ({ mode, setShowModal, getData, task }) => {
       return toast.error("Task is required");
     }
     try {
-      const response = await fetch(`http://localhost:8000/todos/${task.id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_BASE_URL}/todos/${task.id}`,
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        }
+      );
       if (response.status === 200) {
         setShowModal(false);
         getData();
@@ -64,7 +72,7 @@ const Modal = ({ mode, setShowModal, getData, task }) => {
           <button onClick={() => setShowModal(false)}>X</button>
         </div>
 
-        <form>
+        <form method="POST">
           <input
             required
             maxLength={30}
