@@ -1,4 +1,5 @@
 # PERN Todo APP with Authentication 🔐	
+
 This is a Todo App with authentication which is implemented using a PERN technologies (PostgreSQL, Express.js, React.js, Node.js). The application allows users to create, manage, and track their todos while providing user authentication to secure the application.
 
 ## Features
@@ -10,11 +11,15 @@ This is a Todo App with authentication which is implemented using a PERN technol
 - **Todo updating**: Users can update the title, description, and status of existing todos.
 - **Todo deletion**: Users can delete unwanted todos.
 - **User logout**: Logged-in users can log out from the application.
+
 ## Technologies Used
+
 The PERN Todo App with Authentication is built using the following technologies:
+
 - **PostgreSQL**: A powerful open-source relational database management system used to store user and todo data.
 - **Express.js**: A flexible and minimal web application framework for Node.js used to build the server-side application and RESTful APIs.
-- **React.js**: A JavaScript library for building user interfaces used to create an interactive and responsive client-side application.
 - **Node.js**: A JavaScript runtime environment used to execute server-side code for the application.
+- **React.js**: A JavaScript library for building user interfaces used to create an interactive and responsive client-side application.
 - **bcrypt**: A library used for hashing and salting user passwords for secure storage.
 - **jsonwebtoken**: A library used for generating and verifying JSON web tokens (JWTs) for user authentication.
+- **react-coookie**: A library used for storing user data.
