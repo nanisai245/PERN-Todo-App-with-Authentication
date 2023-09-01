@@ -33,7 +33,7 @@ const Auth = () => {
       const endpoint = isLogin ? "login" : "signup";
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API_BASE_URL}/${endpoint}`,
+          `${process.env.REACT_APP_API_BASE_URL}/auth/${endpoint}`,
           {
             method: "POST",
             headers: { "Content-type": "application/json" },
