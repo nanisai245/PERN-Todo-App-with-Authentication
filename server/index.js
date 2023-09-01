@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const { v4: uuidv4 } = require("uuid");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const pool = require("./config/db");
 
 const app = express();
@@ -145,6 +147,76 @@ app.get("/todos/users/:id", async (req, res) => {
   }
 });
 
+// signup
+app.post("/signup", async (req, res) => {
+  try {
+    let { username, password } = req.body;
+    username = username.trim();
+    const user = await pool.query("SELECT * FROM users WHERE username=$1", [
+      username,
+    ]);
+    console.log(user.rowCount);
+    if (user.rowCount !== 0)
+      return res.status(400).json({
+        staus: "fail",
+        message: "Username is already taken",
+      });
+    const id = uuidv4();
+    const salt = bcrypt.genSaltSync(10);
+    const hashedPassword = bcrypt.hashSync(password, salt);
+    await pool.query(
+      "INSERT INTO users(id,username,password) VALUES($1,$2,$3)",
+      [id, username, hashedPassword]
+    );
+    const token = jwt.sign({ id }, "secretkey", { expiresIn: "1h" });
+    res.status(201).json({
+      staus: "success",
+      message: "account created",
+      token,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      message: "Failed to create account",
+      errorMessage: error.message,
+      error,
+    });
+  }
+});
+
+// login
+app.post("/login", async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    const user = await pool.query("SELECT * FROM users WHERE username=$1", [
+      username,
+    ]);
+    if (user.rowCount === 0)
+      return res.status(404).json({
+        staus: "fail",
+        message: "Invalid username or password",
+      });
+
+    const checkPassword = bcrypt.compareSync(password, user.rows[0].password);
+    if (!checkPassword)
+      return res.status(404).json({
+        staus: "fail",
+        message: "Invalid username or password",
+      });
+
+    res.status(201).json({
+      staus: "success",
+      message: "login success",
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      message: "Failed to create user",
+      errorMessage: error.message,
+      error,
+    });
+  }
+});
 const PORT = 8000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
