@@ -10,7 +10,7 @@ function App() {
     try {
       const user_id = "1";
       const response = await fetch(
-        `http://localhost:8000/todos/users/${user_id}`
+        `${process.env.REACT_APP_API_BASE_URL}/todos/users/${user_id}`
       );
       const res = await response.json();
 

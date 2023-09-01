@@ -16,11 +16,14 @@ const Modal = ({ mode, setShowModal, getData, task }) => {
       return toast.error("Task is required");
     }
     try {
-      const response = await fetch("http://localhost:8000/todos", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_BASE_URL}/todos`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        }
+      );
       if (response.status === 201) {
         setShowModal(false);
         getData();
@@ -37,11 +40,14 @@ const Modal = ({ mode, setShowModal, getData, task }) => {
       return toast.error("Task is required");
     }
     try {
-      const response = await fetch(`http://localhost:8000/todos/${task.id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_BASE_URL}/todos/${task.id}`,
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        }
+      );
       if (response.status === 200) {
         setShowModal(false);
         getData();
