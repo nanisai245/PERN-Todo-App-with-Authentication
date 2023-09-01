@@ -61,3 +61,7 @@ The server-side application provides the following RESTful API endpoints:
 Contributions to the project are welcome. If you find any issues or have suggestions for improvements, please open an issue or submit a pull request on the project repository.
 When contributing, please ensure to follow the existing code style and conventions and provide clear commit messages.
 
+## Thank You
+
+Thank you for taking the time to explore the Todo app. I hope it provides you with valuable insights into my skills and experiences as a software developer.
+
