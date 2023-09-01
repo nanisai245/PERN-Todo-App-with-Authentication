@@ -1,4 +1,4 @@
-# PERN Todo APP with Authentication 🔐	
+# ✍️ PERN Todo APP with Authentication 🔐	
 
 This is a Todo App with authentication which is implemented using a PERN technologies (PostgreSQL, Express.js, React.js, Node.js). The application allows users to create, manage, and track their todos while providing user authentication to secure the application.
 
