@@ -3,9 +3,13 @@ import { useEffect, useState } from "react";
 import ListHeader from "./components/ListHeader";
 import ListItem from "./components/ListItem";
 import { ToastContainer } from "react-toastify";
+import Auth from "./components/Auth";
 
 function App() {
   const [tasks, setTasks] = useState([]);
+
+  const authToken = false;
+
   const getData = async () => {
     try {
       const user_id = "1";
@@ -17,6 +21,7 @@ function App() {
       setTasks(res.data.todos);
     } catch (error) {}
   };
+
   useEffect(() => {
     getData();
   }, []);
@@ -27,10 +32,16 @@ function App() {
   return (
     <div className="app">
       <ToastContainer />
-      <ListHeader listName="Holiday tick list" getData={getData} />
-      {sortedTasks?.map((task) => (
-        <ListItem key={task.id} task={task} getData={getData} />
-      ))}
+      {authToken ? (
+        <>
+          <ListHeader listName="Holiday tick list" getData={getData} />
+          {sortedTasks?.map((task) => (
+            <ListItem key={task.id} task={task} getData={getData} />
+          ))}
+        </>
+      ) : (
+        <Auth />
+      )}
     </div>
   );
 }
