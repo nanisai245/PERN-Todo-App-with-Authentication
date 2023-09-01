@@ -20,7 +20,7 @@ The PERN Todo App with Authentication is built using the following technologies:
 - **Express.js**: A flexible and minimal web application framework for Node.js used to build the server-side application and RESTful APIs.
 - **Node.js**: A JavaScript runtime environment used to execute server-side code for the application.
 - **React.js**: A JavaScript library for building user interfaces used to create an interactive and responsive client-side application.
-- **bcrypt**: A library used for hashing and salting user passwords for secure storage.
+- **bcryptjs**: A library used for hashing and salting user passwords for secure storage.
 - **jsonwebtoken**: A library used for generating and verifying JSON web tokens (JWTs) for user authentication.
 - **react-coookie**: A library used for storing user data.
   
@@ -29,20 +29,32 @@ The PERN Todo App with Authentication is built using the following technologies:
 To run the PERN Todo App with Authentication locally, follow these steps:
 
 1. Clone the repository:
-      git clone https://github.com/melos-simeneh/PERN-Todo-App-with-Authentication.git
-2. Navigate to the project directory:
-   cd pern-todo-auth
-3. Install the server-side dependencies:
-    cd server
-    npm install
-4. Install the client-side dependencies:
-    cd client
-    npm install
-5. Start the server
- npm run server
-7. Start the client
-  npm run server
-8. Access the application by visiting http://localhost:3000 in your web browser.
+  ```
+   git clone https://github.com/melos-simeneh/PERN-Todo-App-with-Authentication.git
+  ```
+3. Navigate to the project directory:
+  ```
+cd  PERN-Todo-App-with-Authentication
+  ```
+4. Install the server-side dependencies:
+ ```
+cd server
+npm install
+ ```
+5. Install the client-side dependencies:
+  ```
+cd client
+npm install
+  ```
+7. Start the server:
+ ```
+npm run server
+ ```
+8. Start the client:
+ ```
+npm run server
+ ```
+9. Access the application by visiting http://localhost:3000 in your web browser.
 
 ## API Endpoints
 
