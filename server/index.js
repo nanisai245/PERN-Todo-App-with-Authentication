@@ -152,11 +152,11 @@ app.post("/signup", async (req, res) => {
   try {
     let { username, password } = req.body;
     username = username.trim();
-    const user = await pool.query("SELECT * FROM users WHERE username=$1", [
-      username,
-    ]);
-    console.log(user.rowCount);
-    if (user.rowCount !== 0)
+    const isUsernameExist = await pool.query(
+      "SELECT * FROM users WHERE username=$1",
+      [username]
+    );
+    if (isUsernameExist.rowCount !== 0)
       return res.status(400).json({
         staus: "fail",
         message: "Username is already taken",
@@ -169,10 +169,11 @@ app.post("/signup", async (req, res) => {
       [id, username, hashedPassword]
     );
     const token = jwt.sign({ id }, "secretkey", { expiresIn: "1h" });
-    res.status(201).json({
+    res.status(200).json({
       staus: "success",
       message: "account created",
       token,
+      user: { id, username },
     });
   } catch (error) {
     res.status(500).json({
@@ -191,6 +192,7 @@ app.post("/login", async (req, res) => {
     const user = await pool.query("SELECT * FROM users WHERE username=$1", [
       username,
     ]);
+
     if (user.rowCount === 0)
       return res.status(404).json({
         staus: "fail",
@@ -203,15 +205,19 @@ app.post("/login", async (req, res) => {
         staus: "fail",
         message: "Invalid username or password",
       });
-
-    res.status(201).json({
+    const id = user.rows[0].id;
+    const token = jwt.sign({ id }, "secretkey", { expiresIn: "1h" });
+    res.status(200).json({
       staus: "success",
       message: "login success",
+      token,
+      user: { id, username: user.rows[0].username },
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       status: "error",
-      message: "Failed to create user",
+      message: "Failed to log in user",
       errorMessage: error.message,
       error,
     });

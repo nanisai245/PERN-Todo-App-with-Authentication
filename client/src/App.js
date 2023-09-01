@@ -4,17 +4,18 @@ import ListHeader from "./components/ListHeader";
 import ListItem from "./components/ListItem";
 import { ToastContainer } from "react-toastify";
 import Auth from "./components/Auth";
+import { useCookies } from "react-cookie";
 
 function App() {
+  const [cookies, setCookie, removeCookie] = useCookies(null);
+  const authToken = cookies.AuthToken;
+  const user = cookies.User;
   const [tasks, setTasks] = useState([]);
-
-  const authToken = false;
 
   const getData = async () => {
     try {
-      const user_id = "1";
       const response = await fetch(
-        `${process.env.REACT_APP_API_BASE_URL}/todos/users/${user_id}`
+        `${process.env.REACT_APP_API_BASE_URL}/todos/users/${user.id}`
       );
       const res = await response.json();
 
@@ -27,21 +28,22 @@ function App() {
   }, []);
 
   const sortedTasks = tasks?.sort(
-    (a, b) => new Date(a.date) - new Date(b.date)
+    (a, b) => new Date(b.date) - new Date(a.date)
   );
   return (
-    <div className="app">
+    <div className="container" style={{ textAlign: "center" }}>
       <ToastContainer />
       {authToken ? (
-        <>
+        <div className="app">
           <ListHeader listName="Holiday tick list" getData={getData} />
           {sortedTasks?.map((task) => (
             <ListItem key={task.id} task={task} getData={getData} />
           ))}
-        </>
+        </div>
       ) : (
         <Auth />
       )}
+      <p className="copyright">© Melos</p>
     </div>
   );
 }

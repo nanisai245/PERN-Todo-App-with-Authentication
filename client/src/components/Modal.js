@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
 
 const Modal = ({ mode, setShowModal, getData, task }) => {
+  const [cookies, setCookie, removeCookie] = useCookies(null);
   const editMode = mode === "edit" ? true : false;
   const [data, setData] = useState({
-    user_id: editMode ? task.user_id : "1",
+    user_id: editMode ? task.user_id : cookies.User.id,
     title: editMode ? task.title : null,
     progress: editMode ? task.progress : 50,
     data: editMode ? task.date : new Date(),
@@ -70,7 +72,7 @@ const Modal = ({ mode, setShowModal, getData, task }) => {
           <button onClick={() => setShowModal(false)}>X</button>
         </div>
 
-        <form>
+        <form method="POST">
           <input
             required
             maxLength={30}

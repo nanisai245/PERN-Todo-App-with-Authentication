@@ -2,6 +2,7 @@ import TickIcon from "./TickIcon";
 import { useState } from "react";
 import Modal from "./Modal";
 import { toast } from "react-toastify";
+import ProgressBar from "./ProgressBar";
 
 const ListItem = ({ task, getData }) => {
   const [showModal, setShowModal] = useState(false);
@@ -24,9 +25,10 @@ const ListItem = ({ task, getData }) => {
   };
   return (
     <div className="list-item">
-      <div className="info-container">
+      <div className="info-container" style={{ textAlign: "left" }}>
         <TickIcon />
         <p className="task-title">{task.title}</p>
+        <ProgressBar progress={task.progress} />
       </div>
 
       <div className="button-container">
