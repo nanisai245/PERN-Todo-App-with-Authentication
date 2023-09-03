@@ -75,5 +75,4 @@ When contributing, please ensure to follow the existing code style and conventio
 
 ## Thank You
 
-Thank you for taking the time to explore the Todo app. I hope it provides you with valuable insights into my skills and experiences as a software developer.
-
+Thank you for taking the time to explore the Todo app. I hope it provides you with valuable information.
