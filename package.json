@@ -2,9 +2,11 @@
   "name": "pern-todo-app-with-authentication",
   "version": "1.0.0",
   "scripts": {
-    "client": "cd client && npm start",
-    "server":"cd server && npm start"
+    "build": "if-env TYPE=server && (cd server && npm install) || (cd client && npm install)",
+    "server": "node ./server/server.js",
+    "client": "cd client && npm start"
   },
+
   "author": "Melos",
   "license": "ISC"
 }
